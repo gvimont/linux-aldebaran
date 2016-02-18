@@ -193,8 +193,14 @@ static void __iomem *__ioremap_caller(resource_size_t phys_addr,
 	 * Check if the request spans more than any BAR in the iomem resource
 	 * tree.
 	 */
-	if (iomem_map_sanity_check(unaligned_phys_addr, unaligned_size))
-		pr_warn("caller %pS mapping multiple BARs\n", caller);
+        /* HACK: This warning is disabled because it is triggered by the
+         * Congatec CGEB driver. It looks like some code on the EC side
+         * depends on overlapping memory mappings, so we can not get rid of it
+         * without Congatec chiming in.
+         */
+        if (!(phys_addr == 0xff800000))
+		if (iomem_map_sanity_check(unaligned_phys_addr, unaligned_size))
+			pr_warn("caller %pS mapping multiple BARs\n", caller);
 
 	return ret_addr;
 err_free_area:
