@@ -22,20 +22,3 @@ config AL_UNICORN_WRITE_BOOTLOADER
 	default n
 	---help---
 	  Without FPGA bootloader can not be overwritten
-
-config AL_UNICORN_WIDTH_VIDEO_SUPPORT
-	bool "Add video support to Aldebaran Robotics Unicorn"
-	depends on AL_UNICORN
-	default y
-	select VIDEOBUF_DMA_CONTIG
-	select VIDEOBUF_GEN
-	select VIDEO_DEV
-	---help---
-	  Without this option unicorn create only i2c bus.
-
-config AL_UNICORN_FPS_ON_THE_FLY
-	bool "Enable camera fps change on the fly (EXPERIMENTAL)."
-	depends on AL_UNICORN_WIDTH_VIDEO_SUPPORT && EXPERIMENTAL
-	default n
-	---help---
-	  CAUTION: Totaly experimental/buggy
