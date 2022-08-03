@@ -22,11 +22,5 @@
 #ifndef UNICORN_IOCTLOPS_H
 #define UNICORN_IOCTLOPS_H
 
-#ifdef  CONFIG_AL_UNICORN_WIDTH_VIDEO_SUPPORT
-#include <media/v4l2-ioctl.h>
-#include "unicorn.h"
-
-extern const struct v4l2_ioctl_ops video_ioctl_ops;
-#endif
 
 #endif

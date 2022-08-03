@@ -22,10 +22,5 @@
 #ifndef UNICORN_FOPS_H
 #define UNICORN_FOPS_H
 
-#ifdef CONFIG_AL_UNICORN_WIDTH_VIDEO_SUPPORT
-#include <media/v4l2-dev.h>
-
-extern const struct v4l2_file_operations video_fops;
-#endif
 
 #endif

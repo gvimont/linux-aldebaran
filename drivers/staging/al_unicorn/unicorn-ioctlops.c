@@ -253,9 +253,6 @@ static int vidioc_s_parm(struct file *filp, void *priv,
   dev->fps_limit[fh->channel]=tpf->denominator;
   spin_unlock(&dev->slock);
 
-#ifdef CONFIG_AL_UNICORN_FPS_ON_THE_FLY
-  unicorn_video_change_fps(dev,fh);
-#endif
 
   //return v4l2_subdev_call(dev->sensor[fh->input], video, s_parm, parm);
   return 0;

@@ -22,10 +22,5 @@
 #ifndef UNICORN_VUFF_H
 #define UNICORN_VUFF_H
 
-#ifdef CONFIG_AL_UNICORN_WIDTH_VIDEO_SUPPORT
-#include <media/videobuf-core.h>
-
-extern const struct videobuf_queue_ops unicorn_video_qops;
-#endif
 
 #endif

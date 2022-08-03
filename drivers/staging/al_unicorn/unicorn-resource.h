@@ -22,15 +22,5 @@
 #ifndef UNICORN_RESOURCE_H
 #define UNICORN_RESOURCE_H
 
-#ifdef  CONFIG_AL_UNICORN_WIDTH_VIDEO_SUPPORT
-#include "unicorn.h"
-
-int res_check(struct unicorn_fh *fh, unsigned int bit);
-int res_locked(struct unicorn_dev *dev, unsigned int bit);
-int res_get(struct unicorn_dev *dev, struct unicorn_fh *fh, unsigned int bit);
-void res_free(struct unicorn_dev *dev, struct unicorn_fh *fh, unsigned int bits);
-
-int get_resource(struct unicorn_fh *fh, int resource);
-#endif
 
 #endif

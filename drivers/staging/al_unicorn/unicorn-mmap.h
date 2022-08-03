@@ -22,12 +22,5 @@
 #ifndef UNICORN_MMAP_H
 #define UNICORN_MMAP_H
 
-#ifdef  CONFIG_AL_UNICORN_WIDTH_VIDEO_SUPPORT
-#include <linux/mm.h>
-#include "unicorn.h"
-
-int video_mmap_mapper_alloc(struct unicorn_fh *fh, unsigned int index, struct vm_area_struct *vma);
-int video_mmap_mapper_free(struct unicorn_fh *fh, unsigned int index);
-#endif
 
 #endif
