@@ -1,0 +1,58 @@
+name: Rebase on stable-rt
+
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: '0 0 * * 5'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Environment setup
+        run: |
+          KERNEL_VERSION=`make kernelversion`
+          IFS=. read -r a b c <<< "${KERNEL_VERSION}"
+          KERNEL=$a.$b
+          KERNEL_VERSION_FULL="${KERNEL_VERSION}$(cat localversion-rt)"
+          echo Kernel = "${KERNEL}"
+          echo Kernel version = "${KERNEL_VERSION_FULL}"
+          echo RT_BRANCH=v${KERNEL}-rt-rebase >> $GITHUB_ENV
+          echo KERNEL_VERSION_FULL=${KERNEL_VERSION_FULL} >> $GITHUB_ENV
+
+      - name: Add stable-rt remote
+        run: git remote add stable-rt git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git
+
+      - name: Fetch RT branch
+        run: git fetch stable-rt ${{env.RT_BRANCH}}
+
+      - name: Rebase
+        run: git rebase stable-rt/${{env.RT_BRANCH}}
+
+      - name: Download cross-toolchain
+        run: wget https://community-static.aldebaran.com/resources/2.8.7/cross+toolchain/ctc-linux64-atom-2.8.7.4-20210818_162500.zip
+
+      - name: Decompress cross-toolchain
+        run: unzip ctc-linux64-atom-2.8.7.4-20210818_162500.zip
+
+      - name: Install cross-toolchain
+        run: |
+            ln -s $PWD/ctc-linux64-atom-2.8.7.4-20210818_162500/yocto-sdk \
+                /opt/naoqi-os
+            source /opt/naoqi-os/environment-setup-core2-32-sbr-linux
+
+      - name: Configure the kernel
+        run: |
+            cp arch/x86/configs/atom_debug_defconfig .config
+            make olddefconfig
+
+      - name: Build the kernel
+        run: make -j$(nproc)
