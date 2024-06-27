@@ -57,8 +57,6 @@ jobs:
       - name: Build the kernel
         run: make -j$(nproc)
         
-      - name: Commit changes
-        uses: actions/commit@v2
-        with:
-          message: "Rebased and built"
-          
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9.1.4
+        
